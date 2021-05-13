@@ -1,0 +1,52 @@
+{
+  "name": "File Store",
+  "description": "Telegram bot to store your telegram files",
+  "keywords": [
+    "telegram",
+    "best",
+    "Store",
+    "Files"
+  ],
+  "success_url": "https://telegram.dog/filestore_Nsbot",
+  "website": "https://github.com/Ns-AnoNymouS/filestore",
+  "repository": "https://github.com/Ns-AnoNymouS/filestore",
+  "env": {
+    "WEBHOOK": {
+      "description": "Setting this to ANYTHING will enable webhooks when in env mode",
+      "value": "ANYTHING"
+    },
+    "BOT_TOKEN": {
+      "description": "Your bot token, as a string.",
+      "value": ""
+    },
+    "API_ID": {
+      "description": "Get this value from https://my.telegram.org",
+      "value": ""
+    },
+    "DB_CHANNEL_ID": {
+      "description": "give me the channel ID here (better this should be private channel)",
+      "value": ""
+    },
+    "OWNER_ID": {
+      "description": "give your telegram user id here",
+      "value": ""
+    },
+    "API_HASH": {
+      "description": "Get this value from https://my.telegram.org",
+      "value": ""
+    }
+  },
+  "addons": [
+  ],
+  "buildpacks": [{
+    "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+  }, {
+    "url": "heroku/python"
+  }],
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
+}
