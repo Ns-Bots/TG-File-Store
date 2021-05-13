@@ -4,6 +4,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 
 
+
+#################################### FOR PRIVATE ################################################
 @Client.on_message((filters.document|filters.video|filters.audio) & filters.incoming & ~filters.edited & ~filters.channel)
 async def storefile(c, m):
 
@@ -15,7 +17,7 @@ async def storefile(c, m):
        media = m.audio
 
     # text
-    text = "--**File Details:**--\n\n\n"
+    text = "--**🗃️ File Details:**--\n\n\n"
     text += f"📂 __File Name:__ `{media.file_name}`\n\n"
     text += f"💽 __Mime Type:__ `{media.mime_type}`\n\n"
     text += f"📊 __File Size:__ `{humanbytes(media.file_size)}`\n\n"
@@ -45,8 +47,8 @@ async def storefile(c, m):
 
     # making buttons
     buttons = [[
-        InlineKeyboardButton(text="Url 🔗", url=url),
-        InlineKeyboardButton(text="Share 👤", url=share_url)
+        InlineKeyboardButton(text="Open Url 🔗", url=url),
+        InlineKeyboardButton(text="Share Link 👤", url=share_url)
     ]]
 
     # sending message
@@ -55,6 +57,7 @@ async def storefile(c, m):
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
+#################################### FOR CHANNEL################################################
 
 @Client.on_message((filters.document|filters.video|filters.audio) & filters.incoming & filters.channel & ~filters.edited)
 async def storefile_channel(c, m):
@@ -67,7 +70,7 @@ async def storefile_channel(c, m):
        media = m.audio
 
     # text
-    text = "**File Details:**\n\n\n"
+    text = "**🗃️ Details:**\n\n\n"
     text += f"📂 __File Name:__ `{media.file_name}`\n\n"
     text += f"💽 __Mime Type:__ `{media.mime_type}`\n\n"
     text += f"📊 __File Size:__ `{humanbytes(media.file_size)}`\n\n"
@@ -97,8 +100,8 @@ async def storefile_channel(c, m):
 
     # making buttons
     buttons = [[
-        InlineKeyboardButton(text="Url 🔗", url=url),
-        InlineKeyboardButton(text="Share 👤", url=share_url)
+        InlineKeyboardButton(text="Open Url 🔗", url=url),
+        InlineKeyboardButton(text="Share Link 👤", url=share_url)
     ]]
 
     # Editing and adding the buttons
