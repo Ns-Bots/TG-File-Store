@@ -1,4 +1,6 @@
-# TG FileStore 📦
+
+![Maxx](https://telegra.ph/file/d651c7b7943a9702f846d.png)
+
 This is a telegram bot helps you to store your files and get the share able permanent link 
 
 <a href="https://telegram.dog/FileStore_Nsbot"><img src="https://img.shields.io/badge/Telegram-Bot-blue.svg?logo=telegram"></a>
