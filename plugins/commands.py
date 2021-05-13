@@ -18,11 +18,14 @@ async def start(c, m, cb=False):
     owner_username = owner.username if owner.username else 'Ns_bot_updates'
 
     # start text
-    text = f"""Hi {m.from_user.mention(style='md')}
+    text = f"""Hey! {m.from_user.mention(style='md')}
 
-I am a file store bot with permanent link 📂.
+💡 ** I am Telegram File Store Bot**
 
-**Maintained By:** {owner.mention(style='md')}
+`You can store your Telegram Media for permanent Link!`
+
+
+**👲 Maintained By:** {owner.mention(style='md')}
 """
 
     # Buttons
