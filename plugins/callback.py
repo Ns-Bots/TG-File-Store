@@ -17,14 +17,14 @@ async def help_cb(c, m):
     await m.answer()
 
     # help text
-    help_text = """**You need Help?? 😎**
+    help_text = """**You need Help?? 🧐**
 
-Just send me the files i will store file and give you share able link
+★ Just send me the files i will store file and give you share able link
 
 
 **You can use me in channel too 😉**
 
-Make me admin in your channel with edit permission. Thats enough now continue uploading files in channel i will edit all posts and add share able link url buttons"""
+★ Make me admin in your channel with edit permission. Thats enough now continue uploading files in channel i will edit all posts and add share able link url buttons"""
 
     # creating buttons
     buttons = [
