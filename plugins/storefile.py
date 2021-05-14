@@ -21,9 +21,9 @@ async def storefile(c, m):
 
     # text
     text = "--**🗃️ File Details:**--\n\n\n"
-    text += f"📂 __File Name:__ `{media.file_name}`\n\n"
-    text += f"💽 __Mime Type:__ `{media.mime_type}`\n\n"
-    text += f"📊 __File Size:__ `{humanbytes(media.file_size)}`\n\n"
+    text += f"📂 __File Name:__ `{media.file_name}`\n\n" if media.file_name else ""
+    text += f"💽 __Mime Type:__ `{media.mime_type}`\n\n" if media.mime_type else ""
+    text += f"📊 __File Size:__ `{humanbytes(media.file_size)}`\n\n" if media.file_size else ""
     if not m.document:
         text += f"🎞 __Duration:__ `{TimeFormatter(media.duration * 1000)}`\n\n" if media.duration else ""
         if m.audio:
