@@ -53,12 +53,12 @@ async def start(c, m, cb=False):
         if msg.empty:
             owner = await c.get_users(int(OWNER_ID))
             return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
-
-        caption = msg.caption.markdown
+        
+        caption = f"{msg.caption.markdown}\n\n\n" if msg.caption else ""
 
         if chat_id.startswith('-100'): #if file from channel
             channel = await c.get_chat(int(chat_id))
-            caption += "\n\n\n**--Uploader Details:--**\n\n"
+            caption += "**--Uploader Details:--**\n\n"
             caption += f"__📢 Channel Name:__ `{channel.title}`\n\n"
             caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else ""
             caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
