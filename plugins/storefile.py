@@ -16,6 +16,8 @@ async def storefile(c, m):
        media = m.video
     if m.audio:
        media = m.audio
+    if m.photo:
+       media = m.photo
 
     # text
     text = "--**🗃️ File Details:**--\n\n\n"
@@ -69,6 +71,8 @@ async def storefile_channel(c, m):
        media = m.video
     if m.audio:
        media = m.audio
+    if m.photo:
+       media = m.photo
 
     # text
     text = "**🗃️ Details:**\n\n\n"
