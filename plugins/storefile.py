@@ -7,7 +7,7 @@ DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 
 
 #################################### FOR PRIVATE ################################################
-@Client.on_message((filters.document|filters.video|filters.audio) & filters.incoming & ~filters.edited & ~filters.channel)
+@Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & ~filters.edited & ~filters.channel)
 async def storefile(c, m):
 
     if m.document:
@@ -60,7 +60,7 @@ async def storefile(c, m):
 
 #################################### FOR CHANNEL################################################
 
-@Client.on_message((filters.document|filters.video|filters.audio) & filters.incoming & filters.channel & ~filters.edited)
+@Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & filters.channel & ~filters.edited)
 async def storefile_channel(c, m):
 
     if m.document:
