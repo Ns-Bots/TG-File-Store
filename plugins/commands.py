@@ -15,12 +15,12 @@ OWNER_ID = os.environ.get("OWNER_ID")
 @Client.on_message(filters.command('start') & filters.incoming & filters.private)
 async def start(c, m, cb=False):
     owner = await c.get_users(int(OWNER_ID))
-    owner_username = owner.username if owner.username else 'Ns_bot_updates'
+    owner_username = owner.username if owner.username else 'Disney team'
 
     # start text
     text = f"""Hey! {m.from_user.mention(style='md')}
 
-💡 ** I am Telegram File Store Bot**
+💡 **Hi I am  Disney Team Telegram File Store Bot**
 
 `You can store your Telegram Media for permanent Link!`
 
@@ -31,7 +31,7 @@ async def start(c, m, cb=False):
     # Buttons
     buttons = [
         [
-            InlineKeyboardButton('My Father 👨‍✈️', url=f"https://t.me/{owner_username}"),
+            InlineKeyboardButton('My Father 👨‍✈️', url=f"https://t.me/doreamonfans1"),
             InlineKeyboardButton('Help 💡', callback_data="help")
         ],
         [
