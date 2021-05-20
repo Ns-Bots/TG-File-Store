@@ -18,7 +18,6 @@ async def forcesub(c, m):
                return
         except UserNotParticipant:
             buttons = [[InlineKeyboardButton(text='Updates Channel 🔖', url=f"https://t.me/{UPDATE_CHANNEL}")]]
-            print(m)
             if m.text:
                 if (len(m.text.split(' ')) > 1) & ('start' in m.text):
                     chat_id, msg_id = m.text.split(' ')[1].split('_')
@@ -37,7 +36,7 @@ async def forcesub(c, m):
     await m.continue_propagation()
 
 
-@Client.on_callback_query(filters.regex('^refresh$'))
+@Client.on_callback_query(filters.regex('^refresh'))
 async def refresh_cb(c, m):
     owner = await c.get_users(int(OWNER_ID))
     if UPDATE_CHANNEL:
