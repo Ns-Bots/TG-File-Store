@@ -31,7 +31,7 @@
     "UPDATE_CHANNEL": {
       "description": "Your bot updates channel like Ns_bot_updates (username without @ for forcesub). (Leave empty it you don't want to add)",
       "value": "",
-      "Required": False
+      "required": false
     },
     "OWNER_ID": {
       "description": "give your telegram user id here",
