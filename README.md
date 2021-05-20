@@ -18,6 +18,8 @@ This is a telegram bot helps you to store your files and get the share able perm
 
 - `DB_CHANNEL_ID:` Your telegram channel id like -1001355218755
 
+- `UPDATE_CHANNEL:` Your telegram channel username without @ to add force sub. Leave it empty if you don't wanna add. Example: Ns_bot_updates
+
 - `OWNER_ID:` Get your user id from [MissRose <img src="https://telegra.ph/file/0a36032bd2221c8d4209d.jpg" width="30" height="30">](https://telegram.dog/MissRose_bot) or [File Store Nsbot <img src="https://telegra.ph/file/bdd3352951be090a56590.jpg" width="30" height="30">](https://telegram.dog/FileStore_Nsbot)
 
 ## Deploy to heroku 🗳
