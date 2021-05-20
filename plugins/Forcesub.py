@@ -3,6 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import UserNotParticipant
 OWNER_ID = os.environ.get('OWNER_ID')
 UPDATE_CHANNEL = os.environ.get('UPDATE_CHANNEL', '')
+DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 
 
 @Client.on_message(filters.private & filters.incoming)
@@ -10,7 +11,7 @@ async def forcesub(c, m):
     owner = await c.get_users(int(OWNER_ID))
     if UPDATE_CHANNEL:
         try:
-            user = await c.get_chat_member(UPDATE_CHANNEL, )
+            user = await c.get_chat_member(UPDATE_CHANNEL, m.from_user.id)
             if user.status == "kicked":
                await m.reply_text("**Hey you are banned 😜**", quote=True)
                return
@@ -32,3 +33,53 @@ async def forcesub(c, m):
             await m.reply_text(f"Something Wrong. Please try again later or contact {owner.mention(style='md')}", quote=True)
             return
     await m.continue_propagation()
+
+
+@Client.on_callback_query(filters.regex('^refresh$'))
+async def refresh_cb(c, m):
+    owner = await c.get_users(int(OWNER_ID))
+    if UPDATE_CHANNEL:
+        try:
+            user = await c.get_chat_member(UPDATE_CHANNEL, m.from_user.id)
+            if user.status == "kicked":
+               try:
+                   await m.message.edit("**Hey you are banned 😜**")
+               except:
+                   pass
+               return
+        except UserNotParticipant:
+            await m.answer('You are not yet joined our channel. First join and then press refresh button 🤤', show_alert=True)
+            return
+        except Exception as e:
+            print(e)
+            await m.message.edit(f"Something Wrong. Please try again later or contact {owner.mention(style='md')}")
+            return
+
+    cmd, chat_id, msg_id = m.data.split("+")
+    msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
+
+    if msg.empty:
+        return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
+
+    caption = msg.caption.markdown
+
+    if chat_id.startswith('-100'): #if file from channel
+        channel = await c.get_chat(int(chat_id))
+        caption += "\n\n\n**--Uploader Details:--**\n\n"
+        caption += f"__📢 Channel Name:__ `{channel.title}`\n\n"
+        caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else ""
+        caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
+        caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
+        caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
+
+    else: #if file not from channel
+        user = await c.get_users(int(chat_id))
+        caption += "\n\n\n**--Uploader Details:--**\n\n"
+        caption += f"__🦚 First Name:__ `{user.first_name}`\n\n"
+        caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else ""
+        caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else ""
+        caption += f"__👤 User Id:__ `{user.id}`\n\n"
+        caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
+
+    await msg.copy(m.from_user.id, caption=caption)
+    await m.message.delete()
