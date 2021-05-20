@@ -7,20 +7,14 @@ logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from pyrogram import Client
-
-
-API_ID = int(os.environ.get("API_ID", 0))
-API_HASH = os.environ.get("API_HASH", None)
-BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
-API_KEY = os.environ.get("API_KEY", None)
-
+from config import Config
 
 def main():
     plugins = dict(root="plugins")
     app = Client("FileStore",
-                 bot_token=BOT_TOKEN,
-                 api_id=API_ID,
-                 api_hash=API_HASH,
+                 #bot_token=BOT_TOKEN,
+                 api_id=Config.API_ID,
+                 api_hash=Config.API_HASH,
                  plugins=plugins,
                  workers=100)
 
