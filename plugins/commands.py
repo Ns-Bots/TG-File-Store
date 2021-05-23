@@ -117,3 +117,5 @@ async def batch(c, m):
 
     for file in files:
         await file.copy(int(DB_CHANNEL_ID))
+
+    await m.reply_text(text="files saved")
