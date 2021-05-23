@@ -107,17 +107,18 @@ async def me(c, m):
 async def batch(c, m):
     BATCH.append(m.from_user.id)
     files = []
-    msg = await c.ask(chat_id=m.from_user.id, 'Send me some files or videos or photos')
-    files.append(msg)
 
     while m.from_user.id in BATCH:
         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
         media = await c.ask(chat_id=m.from_user.id, 'Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
         files.append(media)
 
+    string = ""
     for file in files:
         if DB_CHANNEL_ID:
-            await file.copy(int(DB_CHANNEL_ID))
+            copy_message = await file.copy(int(DB_CHANNEL_ID))
         else:
-            await file.copy(m.from_user.id)
+            copy_message = await file.copy(m.from_user.id)
+        string += f"{copy_message.message_id}+"
+    url = f""
     await m.reply_text(text="files saved")
