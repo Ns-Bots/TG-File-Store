@@ -10,6 +10,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 OWNER_ID = os.environ.get("OWNER_ID")
+BATCH = {}
 
 
 @Client.on_message(filters.command('start') & filters.incoming & filters.private)
@@ -100,3 +101,12 @@ async def me(c, m):
     text += f"__📃 Language Code:__ {me.language_code}\n\n" if me.language_code else ""
 
     await m.reply_text(text, quote=True)
+
+
+@Client.on_message(filters.command('batch'))
+async def batch(c, m):
+    BATCH[m.from_user.id] = True
+    await m.reply_text('Send me some files or videos or photos')
+    while m.from_user.id in BATCH:
+
+
