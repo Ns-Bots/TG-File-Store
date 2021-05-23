@@ -109,9 +109,11 @@ async def batch(c, m):
     files = []
     msg = await c.ask(chat_id=m.from_user.id, 'Send me some files or videos or photos')
     files.append(msg)
+
     while m.from_user.id in BATCH:
         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
         media = await c.ask(chat_id=m.from_user.id, 'Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
         files.append(media)
+
     for file in files:
-        await file.copy()
+        await file.copy(int(DB_CHANNEL_ID))
