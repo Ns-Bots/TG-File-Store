@@ -6,7 +6,7 @@ import logging.config
 logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-from .commands import start
+from .commands import start, BATCH
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 OWNER_ID = os.environ.get("OWNER_ID")
@@ -97,3 +97,9 @@ async def about_cb(c, m):
 async def home_cb(c, m):
     await m.answer()
     await start(c, m, cb=True)
+
+
+@Client.on_callback_query(filters.regex('^done$'))
+async def done_cb(c, m):
+    BATCH.remove(m.from_user.id)
+    await m.message.edit('processing')
