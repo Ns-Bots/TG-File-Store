@@ -119,6 +119,9 @@ async def batch(c, m):
             copy_message = await file.copy(int(DB_CHANNEL_ID))
         else:
             copy_message = await file.copy(m.from_user.id)
-        string += f"{copy_message.message_id}+"
-    url = f""
-    await m.reply_text(text="files saved")
+        string += f"{copy_message.message_id}&"
+
+    bot = await c.get_me()
+    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}"
+
+    await m.reply_text(text=url)
