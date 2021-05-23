@@ -116,6 +116,8 @@ async def batch(c, m):
         files.append(media)
 
     for file in files:
-        await file.copy(int(DB_CHANNEL_ID))
-
+        if DB_CHANNEL_ID:
+            await file.copy(int(DB_CHANNEL_ID))
+        else:
+            await file.copy(m.from_user.id)
     await m.reply_text(text="files saved")
