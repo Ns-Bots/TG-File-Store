@@ -103,10 +103,15 @@ async def me(c, m):
     await m.reply_text(text, quote=True)
 
 
-@Client.on_message(filters.command('batch'))
+@Client.on_message(filters.command('batch') & filters.private & filters.incoming)
 async def batch(c, m):
     BATCH.append(m.from_user.id)
-    await c.ask('Send me some files or videos or photos')
+    files = []
+    msg = await c.ask(chat_id=m.from_user.id, 'Send me some files or videos or photos')
+    files.append(msg)
     while m.from_user.id in BATCH:
-        await c.ask('Ok. Now send me some more files. Or press done to stop. ')
-
+        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
+        media = await c.ask(chat_id=m.from_user.id, 'Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
+        files.append(media)
+    for file in files:
+        await file.copy()
