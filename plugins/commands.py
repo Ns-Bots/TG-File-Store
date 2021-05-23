@@ -110,7 +110,7 @@ async def batch(c, m):
 
     while m.from_user.id in BATCH:
         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
-        media = await c.ask(chat_id=m.from_user.id, 'Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
+        media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
         files.append(media)
 
     string = ""
