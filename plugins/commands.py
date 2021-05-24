@@ -160,9 +160,10 @@ async def batch(c, m):
             copy_message = await file.copy(m.from_user.id)
         string += f"{copy_message.message_id}-"
 
-    send = await c.send_message(m.from_user.id, encode(string[:-1])) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), encode(string[:-1]))
+    string_base64 = await encode_string(string[:-1])
+    send = await c.send_message(m.from_user.id, string_base64) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), string_base64)
+    base64_string = await encode_string(f"batch_{m.chat.id}_{send.message_id}")
     bot = await c.get_me()
-    base64_string = await encode(f"batch_{m.chat.id}_{send.message_id}")
     url = f"https://t.me/{bot.username}?start={base64_string}"
 
     await m.reply_text(text=url)
@@ -174,7 +175,7 @@ async def decode(base64_string):
     string = string_bytes.decode("ascii")
     return string
 
-async def encode(string):
+async def encode_string(string):
     string_bytes = string.encode("ascii")
     base64_bytes = base64.b64encode(string_bytes)
     base64_string = base64_bytes.decode("ascii")
