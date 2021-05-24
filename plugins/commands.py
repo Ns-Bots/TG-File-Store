@@ -8,6 +8,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors import ListenerCanceled
 DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 OWNER_ID = os.environ.get("OWNER_ID")
 BATCH = []
@@ -109,9 +110,15 @@ async def batch(c, m):
     files = []
 
     while m.from_user.id in BATCH:
-        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
-        media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
-        files.append(media)
+        try:
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
+            media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
+            files.append(media)
+        except ListenerCanceled:
+            pass
+        except Exception as e:
+            print(e)
+            await m.reply_text(text="Something went wrong. Try again later.")
 
     string = ""
     for file in files:
