@@ -143,4 +143,4 @@ async def batch(c, m):
     bot = await c.get_me()
     url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}"
 
-    await m.reply_text(text=url)
+    await media.edit(text=url)
