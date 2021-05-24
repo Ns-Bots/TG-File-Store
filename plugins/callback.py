@@ -106,6 +106,7 @@ async def done_cb(c, m):
     c.cancel_listener(m.from_user.id)
     await m.message.delete()
 
+
 @Client.on_callback_query(filters.regex('^delete'))
 async def delete_cb(c, m):
     await m.answer()
