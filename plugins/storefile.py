@@ -47,7 +47,7 @@ async def storefile(c, m):
 
     # creating urls
     bot = await c.get_me()
-    base64_string = await encode_string(f"{m.chat.id}_{m.message_id}")
+    base64_string = await encode_string(f"{m.chat.id}_{msg.message_id}")
     url = f"https://t.me/{bot.username}?start={base64_string}"
     txt = urllib.parse.quote(text.replace('--', ''))
     share_url = f"tg://share?url={txt}File%20Link%20👉%20{url}"
