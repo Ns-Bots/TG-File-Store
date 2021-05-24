@@ -6,6 +6,7 @@ import logging.config
 logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
+import base64
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import ListenerCanceled
@@ -49,6 +50,7 @@ async def start(c, m, cb=False):
                )
 
     if len(m.command) > 1: # sending the stored file
+        m.command[1] = decode(m.command[1])
         if 'batch_' in m.command[1]:
             cmd, chat_id, message = m.command[1].split('_')
             string = await c.get_messages(int(chat_id), int(message)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(message))
@@ -56,7 +58,7 @@ async def start(c, m, cb=False):
             if string.empty:
                 owner = await c.get_users(int(OWNER_ID))
                 return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
-            message_ids = string.text.split('-')
+            message_ids = decode(string.text).split('-')
             for msg_id in message_ids:
                 msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
@@ -158,8 +160,22 @@ async def batch(c, m):
             copy_message = await file.copy(m.from_user.id)
         string += f"{copy_message.message_id}-"
 
-    send = await c.send_message(m.from_user.id, string[:-1]) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), string[:-1])
+    send = await c.send_message(m.from_user.id, encode(string[:-1])) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), encode(string[:-1]))
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{send.message_id}"
+    base64_string = encode(f"batch_{m.chat.id}_{send.message_id}")
+    url = f"https://t.me/{bot.username}?start={base64_string}"
 
     await m.reply_text(text=url)
+
+
+async def decode(base64_string):
+    base64_bytes = base64_string.encode("ascii")
+    string_bytes = base64.b64decode(base64_bytes) 
+    string = string_bytes.decode("ascii")
+    return string
+
+async def encode(string):
+    string_bytes = string.encode("ascii")
+    base64_bytes = base64.b64encode(string_bytes)
+    base64_string = base64_bytes.decode("ascii")
+    return base64_string
