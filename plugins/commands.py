@@ -49,6 +49,19 @@ async def start(c, m, cb=False):
                )
 
     if len(m.command) > 1: # sending the stored file
+        if 'batch_' in m.command[1]:
+            cmd, chat_id, string = m.command[1].split('_')
+            message_ids = string.split('&')
+            for msg_id in message_ids:
+                msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
+
+                if msg.empty:
+                    owner = await c.get_users(int(OWNER_ID))
+                    return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
+
+                await msg.copy(m.from_user.id, caption=caption)
+
+
         chat_id, msg_id = m.command[1].split('_')
         msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
@@ -141,6 +154,6 @@ async def batch(c, m):
         string += f"{copy_message.message_id}&"
 
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}"
+    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string[:-1]}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}"
 
     await m.reply_text(text=url)
