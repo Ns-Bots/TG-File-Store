@@ -103,4 +103,4 @@ async def home_cb(c, m):
 async def done_cb(c, m):
     BATCH.remove(m.from_user.id)
     c.cancel_listener(m.from_user.id)
-    await m.message.edit('processing')
+    await m.message.delete()
