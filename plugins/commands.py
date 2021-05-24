@@ -89,6 +89,8 @@ async def start(c, m, cb=False):
 
 @Client.on_message(filters.command('me') & filters.incoming & filters.private)
 async def me(c, m):
+    """ This will be sent when /me command was used"""
+
     me = await c.get_users(m.from_user.id)
     text = "--**YOUR DETAILS:**--\n\n\n"
     text += f"__🦚 First Name:__ `{me.first_name}`\n\n"
@@ -106,19 +108,29 @@ async def me(c, m):
 
 @Client.on_message(filters.command('batch') & filters.private & filters.incoming)
 async def batch(c, m):
+    """ This is for batch command"""
+
     BATCH.append(m.from_user.id)
     files = []
+    i = 1
 
     while m.from_user.id in BATCH:
-        try:
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
+        if i == 1:
             media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
             files.append(media)
-        except ListenerCanceled:
-            pass
-        except Exception as e:
-            print(e)
-            await m.reply_text(text="Something went wrong. Try again later.")
+        elif i <= 10 and i != 1:
+            try:
+                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
+                media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
+                files.append(media)
+            except ListenerCanceled:
+                pass
+            except Exception as e:
+                print(e)
+                await m.reply_text(text="Something went wrong. Try again later.")
+        else:
+            break
+        i += 1
 
     string = ""
     for file in files:
