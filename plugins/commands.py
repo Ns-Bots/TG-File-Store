@@ -53,7 +53,10 @@ async def start(c, m, cb=False):
             cmd, chat_id, message = m.command[1].split('_')
             string = await c.get_messages(int(chat_id), int(message)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(message))
 
-            message_ids = string.split('-')
+            if string.empty:
+                owner = await c.get_users(int(OWNER_ID))
+                return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
+            message_ids = string.text.split('-')
             for msg_id in message_ids:
                 msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
