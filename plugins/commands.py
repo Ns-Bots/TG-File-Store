@@ -50,7 +50,7 @@ async def start(c, m, cb=False):
                )
 
     if len(m.command) > 1: # sending the stored file
-        m.command[1] = decode(m.command[1])
+        m.command[1] = await decode(m.command[1])
         if 'batch_' in m.command[1]:
             cmd, chat_id, message = m.command[1].split('_')
             string = await c.get_messages(int(chat_id), int(message)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(message))
@@ -58,7 +58,7 @@ async def start(c, m, cb=False):
             if string.empty:
                 owner = await c.get_users(int(OWNER_ID))
                 return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
-            message_ids = decode(string.text).split('-')
+            message_ids = (await decode(string.text)).split('-')
             for msg_id in message_ids:
                 msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
@@ -162,7 +162,7 @@ async def batch(c, m):
 
     send = await c.send_message(m.from_user.id, encode(string[:-1])) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), encode(string[:-1]))
     bot = await c.get_me()
-    base64_string = encode(f"batch_{m.chat.id}_{send.message_id}")
+    base64_string = await encode(f"batch_{m.chat.id}_{send.message_id}")
     url = f"https://t.me/{bot.username}?start={base64_string}"
 
     await m.reply_text(text=url)
