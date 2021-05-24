@@ -9,6 +9,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from .commands import start, BATCH
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 OWNER_ID = os.environ.get("OWNER_ID")
 
 
@@ -108,5 +109,6 @@ async def done_cb(c, m):
 @Client.on_callback_query(filters.regex('^delete'))
 async def delete_cb(c, m):
     cmd, msg_id = m.data.split("+")
-    
+    chat_id = m.from_user.id if not DB_CHANNEL_ID else int(DB_CHANNEL_ID)
+    message = await c.get_messages()
     await m.message.edit("Deleted files successfully 👨‍✈️")
