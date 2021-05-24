@@ -53,7 +53,7 @@ async def start(c, m, cb=False):
         if 'batch_' in m.command[1]:
             cmd, chat_id, string = m.command[1].split('_')
 
-            message_ids = string.split('&')
+            message_ids = string.split('-')
             print(message_ids, string)
             for msg_id in message_ids:
                 msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
@@ -154,7 +154,7 @@ async def batch(c, m):
             copy_message = await file.copy(int(DB_CHANNEL_ID))
         else:
             copy_message = await file.copy(m.from_user.id)
-        string += f"{copy_message.message_id}&"
+        string += f"{copy_message.message_id}-"
 
     bot = await c.get_me()
     url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string[:-1]}"
