@@ -145,7 +145,7 @@ async def batch(c, m):
         if i == 1:
             media = await c.ask(chat_id=m.from_user.id, text='Send me some files or videos or photos or text or audio.')
             files.append(media)
-        elif i <= 10 and i != 1:
+        else:
             try:
                 reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
                 media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
@@ -155,8 +155,6 @@ async def batch(c, m):
             except Exception as e:
                 print(e)
                 await m.reply_text(text="Something went wrong. Try again later.")
-        else:
-            break
         i += 1
 
     string = ""
