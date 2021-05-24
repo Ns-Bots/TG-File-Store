@@ -102,4 +102,5 @@ async def home_cb(c, m):
 @Client.on_callback_query(filters.regex('^done$'))
 async def done_cb(c, m):
     BATCH.remove(m.from_user.id)
+    cancel_listener(m.from_user.id)
     await m.message.edit('processing')
