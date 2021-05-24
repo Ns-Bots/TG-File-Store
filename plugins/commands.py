@@ -50,7 +50,8 @@ async def start(c, m, cb=False):
 
     if len(m.command) > 1: # sending the stored file
         if 'batch_' in m.command[1]:
-            cmd, chat_id, string = m.command[1].split('_')
+            cmd, chat_id, message = m.command[1].split('_')
+            string = await c.get_messages(int(chat_id), int(message)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(message))
 
             message_ids = string.split('-')
             for msg_id in message_ids:
