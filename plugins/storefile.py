@@ -1,5 +1,6 @@
 import os
 import urllib
+from .commands import encode_string
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
@@ -9,7 +10,7 @@ DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 #################################### FOR PRIVATE ################################################
 @Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & ~filters.edited & ~filters.channel)
 async def storefile(c, m):
-
+    send_message = await m.reply_text("**Processing...**", quote=True)
     if m.document:
        media = m.document
     if m.video:
@@ -46,7 +47,8 @@ async def storefile(c, m):
 
     # creating urls
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start={m.chat.id}_{m.message_id}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start={m.chat.id}_{msg.message_id}"
+    base64_string = await encode_string(f"{m.chat.id}_{msg.message_id}")
+    url = f"https://t.me/{bot.username}?start={base64_string}"
     txt = urllib.parse.quote(text.replace('--', ''))
     share_url = f"tg://share?url={txt}File%20Link%20👉%20{url}"
 
@@ -54,10 +56,12 @@ async def storefile(c, m):
     buttons = [[
         InlineKeyboardButton(text="Open Url 🔗", url=url),
         InlineKeyboardButton(text="Share Link 👤", url=share_url)
+        ],[
+        InlineKeyboardButton(text="Delete 🗑", callback_data=f"delete+{msg.message_id}")
     ]]
 
     # sending message
-    await m.reply_text(
+    await send_message.edit(
         text,
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -103,7 +107,8 @@ async def storefile_channel(c, m):
 
     # creating urls
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start={m.chat.id}_{m.message_id}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start={m.chat.id}_{msg.message_id}"
+    base64_string = await encode_string(f"{m.chat.id}_{m.message_id}")
+    url = f"https://t.me/{bot.username}?start={base64_string}"
     txt = urllib.parse.quote(text.replace('--', ''))
     share_url = f"tg://share?url={txt}File%20Link%20👉%20{url}"
 
