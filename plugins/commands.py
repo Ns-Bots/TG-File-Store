@@ -145,12 +145,16 @@ async def batch(c, m):
 
     while m.from_user.id in BATCH:
         if i == 1:
-            media = await c.ask(chat_id=m.from_user.id, text='Send me some files or videos or photos or text or audio.')
+            media = await c.ask(chat_id=m.from_user.id, text='Send me some files or videos or photos or text or audio. If you want to cancel the process send /cancel')
+            if media.text == "/cancel":
+                return await m.reply_text('Cancelled Successfully ✌')
             files.append(media)
         else:
             try:
                 reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
-                media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link.', reply_markup=reply_markup)
+                media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link. If you want to cancel the process send /cancel', reply_markup=reply_markup)
+                if media.text == "/cancel":
+                    return await m.reply_text('Cancelled Successfully ✌')
                 files.append(media)
             except ListenerCanceled:
                 pass
