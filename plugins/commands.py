@@ -154,6 +154,6 @@ async def batch(c, m):
         string += f"{copy_message.message_id}&"
 
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string[:-1]}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string}"
+    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string[:-1]}"
 
     await m.reply_text(text=url)
