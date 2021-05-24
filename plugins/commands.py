@@ -1,4 +1,5 @@
 import os
+import asyncio
 import logging
 import logging.config
 
@@ -158,6 +159,7 @@ async def batch(c, m):
                 await m.reply_text(text="Something went wrong. Try again later.")
         i += 1
 
+    message = await m.reply_text("Generating shareable link 🔗")
     string = ""
     for file in files:
         if DB_CHANNEL_ID:
@@ -165,6 +167,7 @@ async def batch(c, m):
         else:
             copy_message = await file.copy(m.from_user.id)
         string += f"{copy_message.message_id}-"
+        await asyncio.sleep(1)
 
     string_base64 = await encode_string(string[:-1])
     send = await c.send_message(m.from_user.id, string_base64) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), string_base64)
@@ -172,7 +175,7 @@ async def batch(c, m):
     bot = await c.get_me()
     url = f"https://t.me/{bot.username}?start={base64_string}"
 
-    await m.reply_text(text=url)
+    await message.edit(text=url)
 
 
 async def decode(base64_string):
