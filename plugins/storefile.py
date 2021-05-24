@@ -2,7 +2,6 @@ import os
 import urllib
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.errors import ListenerCanceled
 DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 
 
