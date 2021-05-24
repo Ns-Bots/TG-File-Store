@@ -59,8 +59,8 @@ async def start(c, m, cb=False):
                     owner = await c.get_users(int(OWNER_ID))
                     return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
 
-                await msg.copy(m.from_user.id, caption=caption)
-
+                await msg.copy(m.from_user.id)
+            return
 
         chat_id, msg_id = m.command[1].split('_')
         msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
