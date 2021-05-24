@@ -10,7 +10,7 @@ DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 #################################### FOR PRIVATE ################################################
 @Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & ~filters.edited & ~filters.channel)
 async def storefile(c, m):
-
+    send_message = await m.reply_text("**Processing...**", quote=True)
     if m.document:
        media = m.document
     if m.video:
@@ -59,7 +59,7 @@ async def storefile(c, m):
     ]]
 
     # sending message
-    await m.reply_text(
+    await send_message.edit(
         text,
         reply_markup=InlineKeyboardMarkup(buttons)
     )
