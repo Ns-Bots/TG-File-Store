@@ -46,7 +46,7 @@ async def storefile(c, m):
 
     # creating urls
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start={m.chat.id}_{m.message_id}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start={m.chat.id}_{msg.message_id}"
+    url = f"https://t.me/{bot.username}?start={m.chat.id}_{m.message_id}"
     txt = urllib.parse.quote(text.replace('--', ''))
     share_url = f"tg://share?url={txt}File%20Link%20👉%20{url}"
 
