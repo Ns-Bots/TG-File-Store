@@ -52,6 +52,7 @@ async def start(c, m, cb=False):
         if 'batch_' in m.command[1]:
             cmd, chat_id, string = m.command[1].split('_')
             message_ids = string.split('&')
+            print(message_ids)
             for msg_id in message_ids:
                 msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
