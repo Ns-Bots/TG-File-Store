@@ -1,5 +1,6 @@
 import os
 import urllib
+from .commands import encode_string
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
@@ -46,7 +47,8 @@ async def storefile(c, m):
 
     # creating urls
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start={m.chat.id}_{m.message_id}"
+    base64_string = await encode_string(f"{m.chat.id}_{m.message_id}")
+    url = f"https://t.me/{bot.username}?start={base64_string}"
     txt = urllib.parse.quote(text.replace('--', ''))
     share_url = f"tg://share?url={txt}File%20Link%20👉%20{url}"
 
@@ -103,7 +105,8 @@ async def storefile_channel(c, m):
 
     # creating urls
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start={m.chat.id}_{m.message_id}" if not DB_CHANNEL_ID else f"https://t.me/{bot.username}?start={m.chat.id}_{msg.message_id}"
+    base64_string = await encode_string(f"{m.chat.id}_{m.message_id}")
+    url = f"https://t.me/{bot.username}?start={base64_string}"
     txt = urllib.parse.quote(text.replace('--', ''))
     share_url = f"tg://share?url={txt}File%20Link%20👉%20{url}"
 
