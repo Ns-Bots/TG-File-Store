@@ -154,7 +154,8 @@ async def batch(c, m):
             copy_message = await file.copy(m.from_user.id)
         string += f"{copy_message.message_id}-"
 
+    send = await c.send_message(m.from_user.id, string[:-1]) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), string[:-1])
     bot = await c.get_me()
-    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{string[:-1]}"
+    url = f"https://t.me/{bot.username}?start=batch_{m.chat.id}_{send.message_id}"
 
     await m.reply_text(text=url)
