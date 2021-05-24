@@ -17,6 +17,9 @@ BATCH = []
 
 @Client.on_message(filters.command('start') & filters.incoming & filters.private)
 async def start(c, m, cb=False):
+    if not cb:
+        send_msg = await m.reply_text("**Processing...**", quote=True)
+
     owner = await c.get_users(int(OWNER_ID))
     owner_username = owner.username if owner.username else 'Ns_bot_updates'
 
@@ -56,19 +59,20 @@ async def start(c, m, cb=False):
             pass
 
         if 'batch_' in m.command[1]:
+            await send_msg.delete()
             cmd, chat_id, message = m.command[1].split('_')
             string = await c.get_messages(int(chat_id), int(message)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(message))
 
             if string.empty:
                 owner = await c.get_users(int(OWNER_ID))
-                return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
+                return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
             message_ids = (await decode(string.text)).split('-')
             for msg_id in message_ids:
                 msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
                 if msg.empty:
                     owner = await c.get_users(int(OWNER_ID))
-                    return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
+                    return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
 
                 await msg.copy(m.from_user.id)
             return
@@ -77,8 +81,7 @@ async def start(c, m, cb=False):
         msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
         if msg.empty:
-            owner = await c.get_users(int(OWNER_ID))
-            return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
+            return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
         
         caption = f"{msg.caption.markdown}\n\n\n" if msg.caption else ""
 
@@ -100,13 +103,13 @@ async def start(c, m, cb=False):
             caption += f"__👤 User Id:__ `{user.id}`\n\n"
             caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
 
+        await send_msg.delete()
         await msg.copy(m.from_user.id, caption=caption)
 
 
     else: # sending start message
-        await m.reply_text(
+        await send_msg.edit(
             text=text,
-            quote=True,
             reply_markup=InlineKeyboardMarkup(buttons)
         )
 
