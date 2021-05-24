@@ -7,7 +7,6 @@ logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from .commands import start, BATCH
-#from pyromod.listen.listen import cancel_listener
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 OWNER_ID = os.environ.get("OWNER_ID")
