@@ -7,7 +7,7 @@ logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from .commands import start, BATCH
-from pyromod.listen.listen import cancel_listener
+#from pyromod.listen.listen import cancel_listener
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 OWNER_ID = os.environ.get("OWNER_ID")
@@ -103,5 +103,5 @@ async def home_cb(c, m):
 @Client.on_callback_query(filters.regex('^done$'))
 async def done_cb(c, m):
     BATCH.remove(m.from_user.id)
-    cancel_listener(m.from_user.id)
+    c.cancel_listener(m.from_user.id)
     await m.message.edit('processing')
