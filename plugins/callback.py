@@ -108,6 +108,7 @@ async def done_cb(c, m):
 
 @Client.on_callback_query(filters.regex('^delete'))
 async def delete_cb(c, m):
+    await m.answer()
     cmd, msg_id = m.data.split("+")
     chat_id = m.from_user.id if not DB_CHANNEL_ID else int(DB_CHANNEL_ID)
     message = await c.get_messages(chat_id, int(msg_id))
