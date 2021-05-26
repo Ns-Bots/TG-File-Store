@@ -27,7 +27,7 @@ async def start(c, m, cb=False):
     # start text
     text = f"""Hey! {m.from_user.mention(style='md')}
 
-💡 ** I am Telegram File Store Bot**
+💡 ** Hi I am Disney Team Telegram File Store Bot**
 
 `You can store your Telegram Media for permanent Link!`
 
