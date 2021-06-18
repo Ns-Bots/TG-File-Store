@@ -61,7 +61,6 @@ async def start(c, m, cb=False):
             caption += "**--Uploader Details:--**\n\n"
             caption += f"__📢 Channel Name:__ `{channel.title}`\n\n"
             caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else ""
-            caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
             caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
             caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
 
@@ -71,8 +70,6 @@ async def start(c, m, cb=False):
             caption += f"__🦚 First Name:__ `{user.first_name}`\n\n"
             caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else ""
             caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else ""
-            caption += f"__👤 User Id:__ `{user.id}`\n\n"
-            caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
 
         await msg.copy(m.from_user.id, caption=caption)
 
