@@ -11,6 +11,8 @@ import base64
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import ListenerCanceled
+from database.database import *
+
 DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 OWNER_ID = os.environ.get("OWNER_ID")
 BATCH = []
@@ -85,7 +87,28 @@ async def start(c, m, cb=False):
         if msg.empty:
             return await send_msg.edit(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
         
-        caption = f"{msg.caption.markdown}" if msg.caption else ""
+        caption = f"{msg.caption.markdown}\n" if msg.caption else ""
+        as_uploadername = (await get_data(chat_id)).up_name
+        
+        if as_uploadername:
+            if chat_id.startswith('-100'):
+                channel = await c.get_chat(int(chat_id))
+                caption += "**--Uploader Details:--**\n\n" 
+                caption += f"__📢 Channel Name:__ `{channel.title}`\n\n" 
+                caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else "" 
+                caption += f"__👤 Channel Id:__ `{channel.id}`\n\n" 
+                caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else "" 
+                caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
+            else:
+                user = await c.get_users(int(chat_id)) 
+                caption += "**--Uploader Details:--**\n\n" 
+                caption += f"__🦚 First Name:__ `{user.first_name}`\n\n" 
+                caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else "" 
+                caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else "" 
+                caption += f"__👤 User Id:__ `{user.id}`\n\n" 
+                caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
+
+
         await send_msg.delete()
         await msg.copy(m.from_user.id, caption=caption)
 
@@ -162,6 +185,16 @@ async def batch(c, m):
 
     await message.edit(text=url)
 
+@Client.on_message(filters.command('mode') & filters.incoming & filters.private)
+async def set_mode(c,m):
+    caption_mode = (await get_data(m.from_user.id)).up_name
+    if caption_mode:
+       await update_as_name(m.from_user.id, False)
+       text = "Uploader Details in Caption: **Disabled ❌**"
+    else:
+       await update_as_name(m.from_user.id, True)
+       text = "Uploader Details in Caption: **Enabled ✔️**"
+    await m.reply_text(text, quote=True)
 
 async def decode(base64_string):
     base64_bytes = base64_string.encode("ascii")
