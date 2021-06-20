@@ -192,10 +192,10 @@ async def set_mode(c,m):
         usr = m.command[1]
     caption_mode = (await get_data(usr)).up_name
     if caption_mode:
-       await update_as_name(str(m.from_user.id), False)
+       await update_as_name(str(usr), False)
        text = "Uploader Details in Caption: **Disabled ❌**"
     else:
-       await update_as_name(str(m.from_user.id), True)
+       await update_as_name(str(usr), True)
        text = "Uploader Details in Caption: **Enabled ✔️**"
     await m.reply_text(text, quote=True)
 
