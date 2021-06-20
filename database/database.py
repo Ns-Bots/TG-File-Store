@@ -34,9 +34,9 @@ Database.__table__.create(checkfirst=True)
 
 async def update_as_name(id, mode):
     with INSERTION_LOCK:
-        msg = SESSION.query(Database).get(id)
+        msg = SESSION.query(Database).get(str(id))
         if not msg:
-            msg = Database(id, False)
+            msg = Database(str(id), False)
         else:
             msg.up_name = mode
             SESSION.delete(msg)
@@ -45,12 +45,12 @@ async def update_as_name(id, mode):
 
 async def get_data(id):
     try:
-        user_data = SESSION.query(Database).get(id)
+        user_data = SESSION.query(Database).get(str(id))
         if not user_data:
-            new_user = Database(id, False)
+            new_user = Database(str(id), False)
             SESSION.add(new_user)
             SESSION.commit()
-            user_data = SESSION.query(Database).get(id)
+            user_data = SESSION.query(Database).get(str(id))
         return user_data
     finally:
         SESSION.close()
