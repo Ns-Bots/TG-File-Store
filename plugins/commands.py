@@ -189,10 +189,10 @@ async def batch(c, m):
 async def set_mode(c,m):
     caption_mode = (await get_data(m.from_user.id)).up_name
     if caption_mode:
-       await update_as_name(m.from_user.id, False)
+       await update_as_name(str(m.from_user.id), False)
        text = "Uploader Details in Caption: **Disabled ❌**"
     else:
-       await update_as_name(m.from_user.id, True)
+       await update_as_name(str(m.from_user.id), True)
        text = "Uploader Details in Caption: **Enabled ✔️**"
     await m.reply_text(text, quote=True)
 
