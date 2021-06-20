@@ -23,11 +23,11 @@ INSERTION_LOCK = threading.RLock()
 
 class Database(BASE):
     __tablename__ = "database"
-    id = Column(Integer, primary_key=True)
+    id = Column(String, primary_key=True)
     up_name = Column(Boolean)
 
     def __init__(self, id, up_name):
-        self.id = id
+        self.id = str(id)
         self.up_name = up_name
 
 Database.__table__.create(checkfirst=True)
