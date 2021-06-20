@@ -187,7 +187,10 @@ async def batch(c, m):
 
 @Client.on_message(filters.command('mode') & filters.incoming & filters.private)
 async def set_mode(c,m):
-    caption_mode = (await get_data(m.from_user.id)).up_name
+    usr = m.from_user.id
+    if len(m.command) > 1:
+        usr = m.command[1]
+    caption_mode = (await get_data(usr)).up_name
     if caption_mode:
        await update_as_name(str(m.from_user.id), False)
        text = "Uploader Details in Caption: **Disabled ❌**"
