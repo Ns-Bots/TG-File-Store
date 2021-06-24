@@ -70,7 +70,7 @@ async def about_cb(c, m):
 
 👨‍💻 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫: {owner.mention(style='md')}
 
-📢 𝐂𝐡𝐚𝐧𝐧𝐞𝐥: [CONTACT](https://t.me/pmplutoniumxbot?start)"""
+💬 𝐂𝐨𝐧𝐭𝐚𝐜𝐭: [Night Core](https://t.me/pmplutoniumxbot?start)"""
 
     # creating buttons
     buttons = [
