@@ -26,9 +26,7 @@ async def start(c, m, cb=False):
     owner_username = owner.username if owner.username else 'Ns_bot_updates'
 
     # start text
-    text = f"""Hey! {m.from_user.mention(style='md')}
-
-💡 ** I am Telegram File Store Bot.I can help you to store your files and give you direct shareable link.**
+    text = f"""Hey {m.from_user.mention(style='md')} 🙋‍♂️. **I am Telegram File Store Bot. I can help you to store your files and give you direct shareable link.**
 
 **👲 Maintained By:** {owner.mention(style='md')}
 """
@@ -92,17 +90,11 @@ async def start(c, m, cb=False):
                 caption += "**--Uploader Details:--**\n\n"
                 caption += f"__📢 Channel Name:__ `{channel.title}`\n\n"
                 caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else ""
-                caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
-                caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
-                caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
+                caption += f"__🆔 Channel ID:__ `{channel.id}`\n\n"
             else:
                 user = await c.get_users(int(chat_id))
                 caption += "**--Uploader Details:--**\n\n"
-                caption += f"__🦚 First Name:__ `{user.first_name}`\n\n"
-                caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else ""
-                caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else ""
-                caption += f"__👤 User Id:__ `{user.id}`\n\n"
-                caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
+                caption += f"**Uploaded by:** {m.from_user.mention(style='md')}"
 
 
         await send_msg.delete()
