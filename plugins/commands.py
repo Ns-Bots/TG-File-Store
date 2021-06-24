@@ -12,9 +12,8 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import ListenerCanceled
 from database.database import *
+from config import *
 
-DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
-OWNER_ID = os.environ.get("OWNER_ID")
 BATCH = []
 
 
@@ -142,7 +141,9 @@ async def me(c, m):
 @Client.on_message(filters.command('batch') & filters.private & filters.incoming)
 async def batch(c, m):
     """ This is for batch command"""
-
+    if IS_PRIVATE:
+        if m.from_user.id not in AUTH_USERS:
+            return
     BATCH.append(m.from_user.id)
     files = []
     i = 1
@@ -187,6 +188,9 @@ async def batch(c, m):
 
 @Client.on_message(filters.command('mode') & filters.incoming & filters.private)
 async def set_mode(c,m):
+    if IS_PRIVATE:
+        if m.from_user.id not in AUTH_USERS:
+            return
     usr = m.from_user.id
     if len(m.command) > 1:
         usr = m.command[1]

@@ -3,23 +3,16 @@ import urllib
 from .commands import encode_string
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
-
-
+from config import *
 
 #################################### FOR PRIVATE ################################################
 @Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & ~filters.edited & ~filters.channel)
 async def storefile(c, m):
+    if IS_PRIVATE:
+        if m.from_user.id not in AUTH_USERS:
+            return
     send_message = await m.reply_text("**Processing...**", quote=True)
-    if m.document:
-       media = m.document
-    if m.video:
-       media = m.video
-    if m.audio:
-       media = m.audio
-    if m.photo:
-       media = m.photo
-
+    media = m.document or m.video or m.audio or m.photo
     # text
     text = ""
     if not m.photo:
@@ -68,17 +61,12 @@ async def storefile(c, m):
 
 #################################### FOR CHANNEL################################################
 
-@Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & filters.channel & ~filters.edited)
+@Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & filters.channel & ~filters.forwarded & ~filters.edited)
 async def storefile_channel(c, m):
-
-    if m.document:
-       media = m.document
-    if m.video:
-       media = m.video
-    if m.audio:
-       media = m.audio
-    if m.photo:
-       media = m.photo
+    if IS_PRIVATE:
+        if m.chat.id not in AUTH_USERS:
+            return
+    media = m.document or m.video or m.audio or m.photo
 
     # text
     text = ""

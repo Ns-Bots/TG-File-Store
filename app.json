@@ -40,6 +40,16 @@
     "API_HASH": {
       "description": "Get this value from https://my.telegram.org",
       "value": ""
+    },
+    "AUTH_USERS": {
+      "description": "Add authorized userids if u are using IS_PRIVATE",
+      "value": "",
+      "required": false
+    },
+    "IS_PRIVATE": {
+      "description": "Add True if you want to use as Private",
+      "value": "",
+      "required": false
     }
   },
   "addons": [

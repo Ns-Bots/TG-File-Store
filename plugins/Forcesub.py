@@ -2,10 +2,8 @@ import os
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import UserNotParticipant
-OWNER_ID = os.environ.get('OWNER_ID')
-UPDATE_CHANNEL = os.environ.get('UPDATE_CHANNEL', '')
-DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
-
+from database.database import *
+from config import *
 
 @Client.on_message(filters.private & filters.incoming)
 async def forcesub(c, m):
@@ -58,29 +56,29 @@ async def refresh_cb(c, m):
 
     cmd, chat_id, msg_id = m.data.split("+")
     msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
-
     if msg.empty:
         return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
 
     caption = msg.caption.markdown
-
-    if chat_id.startswith('-100'): #if file from channel
-        channel = await c.get_chat(int(chat_id))
-        caption += "\n\n\n**--Uploader Details:--**\n\n"
-        caption += f"__📢 Channel Name:__ `{channel.title}`\n\n"
-        caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else ""
-        caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
-        caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
-        caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
-
-    else: #if file not from channel
-        user = await c.get_users(int(chat_id))
-        caption += "\n\n\n**--Uploader Details:--**\n\n"
-        caption += f"__🦚 First Name:__ `{user.first_name}`\n\n"
-        caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else ""
-        caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else ""
-        caption += f"__👤 User Id:__ `{user.id}`\n\n"
-        caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
+    as_uploadername = (await get_data(str(chat_id))).up_name
+    if as_uploadername:
+        if chat_id.startswith('-100'): #if file from channel
+            channel = await c.get_chat(int(chat_id))
+            caption += "\n\n\n**--Uploader Details:--**\n\n"
+            caption += f"__📢 Channel Name:__ `{channel.title}`\n\n"
+            caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else ""
+            caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
+            caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
+            caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
+        
+        else: #if file not from channel
+            user = await c.get_users(int(chat_id))
+            caption += "\n\n\n**--Uploader Details:--**\n\n"
+            caption += f"__🦚 First Name:__ `{user.first_name}`\n\n"
+            caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else ""
+            caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else ""
+            caption += f"__👤 User Id:__ `{user.id}`\n\n"
+            caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
 
     await msg.copy(m.from_user.id, caption=caption)
     await m.message.delete()
