@@ -22,6 +22,10 @@ This is a telegram bot helps you to store your files and get the share able perm
 
 - `OWNER_ID:` Get your user id from [MissRose <img src="https://telegra.ph/file/0a36032bd2221c8d4209d.jpg" width="30" height="30">](https://telegram.dog/MissRose_bot) or [File Store Nsbot <img src="https://telegra.ph/file/bdd3352951be090a56590.jpg" width="30" height="30">](https://telegram.dog/FileStore_Nsbot)
 
+- `IS_PRIVATE:` Add True if you want to use private ,make sure u add AUTH_USERS if you are using IS_PRIVATE
+
+- `AUTH_USERS:` USERID's or ChannelID separated by space (Only mandatory if IS_PRIVATE is True)
+
 ## Deploy to heroku 🗳
 Press the button Deploy to heroku and give the values for the config vars. 👇
 
