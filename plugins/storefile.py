@@ -3,23 +3,23 @@ import urllib
 from .commands import encode_string
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
 
+DB_CHANNEL_ID = os.environ.get("DB_CHANNEL_ID")
+IS_PRIVATE = os.environ.get("IS_PRIVATE",False) # any input is ok But True preferable
+OWNER_ID = os.environ.get("OWNER_ID")
+AUTH_USERS = list(int(i) for i in os.environ.get("AUTH_USERS", "").split(" ")) if os.environ.get("AUTH_USERS", "") else []
+if OWNER_ID not in AUTH_USERS:
+    AUTH_USERS.append(OWNER_ID)
 
 
 #################################### FOR PRIVATE ################################################
 @Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & ~filters.edited & ~filters.channel)
 async def storefile(c, m):
+    if IS_PRIVATE:
+        if m.from_user.id not in AUTH_USERS:
+            return
     send_message = await m.reply_text("**Processing...**", quote=True)
-    if m.document:
-       media = m.document
-    if m.video:
-       media = m.video
-    if m.audio:
-       media = m.audio
-    if m.photo:
-       media = m.photo
-
+    media = m.document or m.video or m.audio or m.photo
     # text
     text = ""
     if not m.photo:
@@ -70,15 +70,10 @@ async def storefile(c, m):
 
 @Client.on_message((filters.document|filters.video|filters.audio|filters.photo) & filters.incoming & filters.channel & ~filters.edited)
 async def storefile_channel(c, m):
-
-    if m.document:
-       media = m.document
-    if m.video:
-       media = m.video
-    if m.audio:
-       media = m.audio
-    if m.photo:
-       media = m.photo
+    if IS_PRIVATE:
+        if m.chat.id not in AUTH_USERS:
+            return
+    media = m.document or m.video or m.audio or m.photo
 
     # text
     text = ""
