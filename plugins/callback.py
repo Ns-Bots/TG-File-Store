@@ -20,7 +20,6 @@ async def help_cb(c, m):
 
 ★ Just send me the files i will store file and give you share able link
 
-
 **You can use me in channel too 😉**
 
 ★ Make me admin in your channel with edit permission. Thats enough now continue uploading files in channel i will edit all posts and add share able link url buttons
