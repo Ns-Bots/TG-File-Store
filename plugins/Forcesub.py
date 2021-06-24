@@ -70,7 +70,7 @@ async def refresh_cb(c, m):
             caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
             caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
             caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
-        
+
         else: #if file not from channel
             user = await c.get_users(int(chat_id))
             caption += "\n\n\n**--Uploader Details:--**\n\n"

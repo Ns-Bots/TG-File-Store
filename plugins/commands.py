@@ -39,7 +39,7 @@ async def start(c, m, cb=False):
     # Buttons
     buttons = [
         [
-            InlineKeyboardButton('My Father 👨‍✈️', url=f"https://t.me/{owner_username}"),
+            InlineKeyboardButton('My Owner 👨‍✈️', url=f"https://t.me/{owner_username}"),
             InlineKeyboardButton('Help 💡', callback_data="help")
         ],
         [
@@ -74,7 +74,7 @@ async def start(c, m, cb=False):
 
                 if msg.empty:
                     owner = await c.get_users(int(OWNER_ID))
-                    return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
+                    return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor help contact my owner 👉 {owner.mention(style='md')}")
 
                 await msg.copy(m.from_user.id)
                 await asyncio.sleep(1)
@@ -85,26 +85,26 @@ async def start(c, m, cb=False):
 
         if msg.empty:
             return await send_msg.edit(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
-        
+
         caption = f"{msg.caption.markdown}\n\n\n" if msg.caption else ""
         as_uploadername = (await get_data(str(chat_id))).up_name
-        
+
         if as_uploadername:
             if chat_id.startswith('-100'):
                 channel = await c.get_chat(int(chat_id))
-                caption += "**--Uploader Details:--**\n\n" 
-                caption += f"__📢 Channel Name:__ `{channel.title}`\n\n" 
-                caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else "" 
-                caption += f"__👤 Channel Id:__ `{channel.id}`\n\n" 
-                caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else "" 
+                caption += "**--Uploader Details:--**\n\n"
+                caption += f"__📢 Channel Name:__ `{channel.title}`\n\n"
+                caption += f"__🗣 User Name:__ @{channel.username}\n\n" if channel.username else ""
+                caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
+                caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
                 caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
             else:
-                user = await c.get_users(int(chat_id)) 
-                caption += "**--Uploader Details:--**\n\n" 
-                caption += f"__🦚 First Name:__ `{user.first_name}`\n\n" 
-                caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else "" 
-                caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else "" 
-                caption += f"__👤 User Id:__ `{user.id}`\n\n" 
+                user = await c.get_users(int(chat_id))
+                caption += "**--Uploader Details:--**\n\n"
+                caption += f"__🦚 First Name:__ `{user.first_name}`\n\n"
+                caption += f"__🐧 Last Name:__ `{user.last_name}`\n\n" if user.last_name else ""
+                caption += f"__👁 User Name:__ @{user.username}\n\n" if user.username else ""
+                caption += f"__👤 User Id:__ `{user.id}`\n\n"
                 caption += f"__💬 DC ID:__ {user.dc_id}\n\n" if user.dc_id else ""
 
 
@@ -157,7 +157,7 @@ async def batch(c, m):
         else:
             try:
                 reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Done ✅', callback_data='done')]])
-                media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files Or press done to get shareable link. If you want to cancel the process send /cancel', reply_markup=reply_markup)
+                media = await c.ask(chat_id=m.from_user.id, text='Ok 😉. Now send me some more files or press done to get shareable link. If you want to cancel the process send /cancel', reply_markup=reply_markup)
                 if media.text == "/cancel":
                     return await m.reply_text('Cancelled Successfully ✌')
                 files.append(media)
@@ -205,7 +205,7 @@ async def set_mode(c,m):
 
 async def decode(base64_string):
     base64_bytes = base64_string.encode("ascii")
-    string_bytes = base64.b64decode(base64_bytes) 
+    string_bytes = base64.b64decode(base64_bytes)
     string = string_bytes.decode("ascii")
     return string
 
