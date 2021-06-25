@@ -28,14 +28,14 @@ async def start(c, m, cb=False):
     # start text
     text = f"""Hey {m.from_user.mention(style='md')} 🙋‍♂️. **I am Telegram File Store Bot. I can help you to store your files and give you direct shareable link.**
 
-**👲 Maintained By:** {owner.mention(style='md')}
+**👨‍💻 Maintained By:** {owner.mention(style='md')}
 """
 
     # Buttons
     buttons = [
         [
-            InlineKeyboardButton('My Owner 👨‍✈️', url=f"https://t.me/{owner_username}"),
-            InlineKeyboardButton('Help 💡', callback_data="help")
+            InlineKeyboardButton('My Owner 👨‍💻', url=f"https://t.me/{owner_username}"),
+            InlineKeyboardButton('Help ℹ', callback_data="help")
         ],
         [
             InlineKeyboardButton('About 📕', callback_data="about")
@@ -62,14 +62,13 @@ async def start(c, m, cb=False):
 
             if string.empty:
                 owner = await c.get_users(int(OWNER_ID))
-                return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
+                return await m.reply_text(f"🥴 Sorry, Your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
             message_ids = (await decode(string.text)).split('-')
             for msg_id in message_ids:
-                msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
-
+                msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))Y
                 if msg.empty:
                     owner = await c.get_users(int(OWNER_ID))
-                    return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor help contact my owner 👉 {owner.mention(style='md')}")
+                    return await m.reply_text(f"🥴 Sorry, Your file was deleted by file owner or bot owner\n\nFor help contact my owner 👉 {owner.mention(style='md')}")
 
                 await msg.copy(m.from_user.id)
                 await asyncio.sleep(1)
@@ -79,7 +78,7 @@ async def start(c, m, cb=False):
         msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
 
         if msg.empty:
-            return await send_msg.edit(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
+            return await send_msg.edit(f"🥴 Sorry, Your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
 
         caption = f"{msg.caption.markdown}\n\n\n" if msg.caption else ""
         as_uploadername = (await get_data(str(chat_id))).up_name
@@ -93,7 +92,6 @@ async def start(c, m, cb=False):
                 caption += f"__🆔 Channel ID:__ `{channel.id}`\n\n"
             else:
                 user = await c.get_users(int(chat_id))
-                caption += "**--Uploader Details:--**\n\n"
                 caption += f"**Uploaded by:** {m.from_user.mention(style='md')}"
 
 
@@ -114,15 +112,15 @@ async def me(c, m):
 
     me = await c.get_users(m.from_user.id)
     text = "--**YOUR DETAILS:**--\n\n\n"
-    text += f"__🦚 First Name:__ `{me.first_name}`\n\n"
-    text += f"__🐧 Last Name:__ `{me.last_name}`\n\n" if me.last_name else ""
-    text += f"__👁 User Name:__ @{me.username}\n\n" if me.username else ""
-    text += f"__👤 User Id:__ `{me.id}`\n\n"
-    text += f"__💬 DC ID:__ {me.dc_id}\n\n" if me.dc_id else ""
-    text += f"__✔ Is Verified By TELEGRAM:__ `{me.is_verified}`\n\n" if me.is_verified else ""
-    text += f"__👺 Is Fake:__ {me.is_fake}\n\n" if me.is_fake else ""
-    text += f"__💨 Is Scam:__ {me.is_scam}\n\n" if me.is_scam else ""
-    text += f"__📃 Language Code:__ {me.language_code}\n\n" if me.language_code else ""
+    text += f"__First Name:__ `{me.first_name}`\n\n"
+    text += f"__Last Name:__ `{me.last_name}`\n\n" if me.last_name else ""
+    text += f"__User Name:__ @{me.username}\n\n" if me.username else ""
+    text += f"__User Id:__ `{me.id}`\n\n"
+    text += f"__DC ID:__ {me.dc_id}\n\n" if me.dc_id else ""
+    text += f"__Is Verified By TELEGRAM:__ `{me.is_verified}`\n\n" if me.is_verified else ""
+    text += f"__Is Fake:__ {me.is_fake}\n\n" if me.is_fake else ""
+    text += f"__Is Scam:__ {me.is_scam}\n\n" if me.is_scam else ""
+    text += f"__Language Code:__ {me.language_code}\n\n" if me.language_code else ""
 
     await m.reply_text(text, quote=True)
 
