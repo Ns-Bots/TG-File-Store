@@ -65,7 +65,7 @@ async def start(c, m, cb=False):
                 return await m.reply_text(f"🥴 Sorry, Your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
             message_ids = (await decode(string.text)).split('-')
             for msg_id in message_ids:
-                msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))Y
+                msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
                 if msg.empty:
                     owner = await c.get_users(int(OWNER_ID))
                     return await m.reply_text(f"🥴 Sorry, Your file was deleted by file owner or bot owner\n\nFor help contact my owner 👉 {owner.mention(style='md')}")
