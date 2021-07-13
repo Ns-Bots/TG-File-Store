@@ -19,7 +19,7 @@ async def forcesub(c, m):
             if m.text:
                 if (len(m.text.split(' ')) > 1) & ('start' in m.text):
                     chat_id, msg_id = m.text.split(' ')[1].split('_')
-                    buttons.append([InlineKeyboardButton('🔄 Refresh', callback_data=f'refresh+{chat_id}+{msg_id}')])
+                    buttons.append([InlineKeyboardButton('REFRESH', callback_data=f'refresh+{chat_id}+{msg_id}')])
             await m.reply_text(
                 f"Hey {m.from_user.mention(style='md')} you need join My updates channel in order to use me 😉\n\n"
                 "__Press the Following Button to join Now 👇__",
@@ -57,7 +57,7 @@ async def refresh_cb(c, m):
     cmd, chat_id, msg_id = m.data.split("+")
     msg = await c.get_messages(int(chat_id), int(msg_id)) if not DB_CHANNEL_ID else await c.get_messages(int(DB_CHANNEL_ID), int(msg_id))
     if msg.empty:
-        return await m.reply_text(f"🥴 Sorry bro your file was missing\n\nPlease contact my owner 👉 {owner.mention(style='md')}")
+        return await m.reply_text(f"Either the file was deleted by the uploader or it contains nsfw/copyrighted content")
 
     caption = msg.caption.markdown
     as_uploadername = (await get_data(str(chat_id))).up_name
@@ -70,7 +70,7 @@ async def refresh_cb(c, m):
             caption += f"__👤 Channel Id:__ `{channel.id}`\n\n"
             caption += f"__💬 DC ID:__ {channel.dc_id}\n\n" if channel.dc_id else ""
             caption += f"__👁 Members Count:__ {channel.members_count}\n\n" if channel.members_count else ""
-        
+
         else: #if file not from channel
             user = await c.get_users(int(chat_id))
             caption += "\n\n\n**--Uploader Details:--**\n\n"
