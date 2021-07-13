@@ -181,7 +181,7 @@ async def set_mode(c,m):
        text = "❌ Successfully disabled Uploader Details in caption."
     else:
        await update_as_name(str(usr), True)
-       text = " ✔️ Successfully enabled Uploader Details in caption."
+       text = " ✅  Successfully enabled Uploader Details in caption."
     await m.reply_text(text, quote=True)
 
 async def decode(base64_string):
