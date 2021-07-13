@@ -26,7 +26,7 @@ async def start(c, m, cb=False):
     owner_username = owner.username if owner.username else 'Plutonium X'
 
     # start text
-    text = f"""Hey {m.from_user.mention(style='md')} 🙋‍♂️. **I am Telegram Files Box bot. I can help you to store your files and give you a permanent shareable link.**"""
+    text = f"""Hey {m.from_user.mention(style='md')} 🙋‍♂️. **I am a Telegram Files Box bot. I can help you to store your files and give you a permanent shareable link.**"""
 
     # Buttons
     buttons = [
@@ -163,7 +163,7 @@ async def batch(c, m):
     send = await c.send_message(m.from_user.id, string_base64) if not DB_CHANNEL_ID else await c.send_message(int(DB_CHANNEL_ID), string_base64)
     base64_string = await encode_string(f"batch_{m.chat.id}_{send.message_id}")
     bot = await c.get_me()
-    url = f"**COPY LINK:** `https://t.me/{bot.username}?start={base64_string}`"
+    url = f"**LINK:** `https://t.me/{bot.username}?start={base64_string}`"
 
     await message.edit(text=url, disable_web_page_preview=True)
 

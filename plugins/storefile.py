@@ -38,10 +38,10 @@ async def storefile(c, m):
 
     # making buttons
     buttons = [[
-        InlineKeyboardButton(text="OPEN URL", url=url),
+        InlineKeyboardButton(text="OPEN LINK", url=url),
         InlineKeyboardButton(text="SHARE LINK", url=share_url)
         ],[
-        InlineKeyboardButton(text="DELETE", callback_data=f"delete+{msg.message_id}")
+        InlineKeyboardButton(text="DELETE THIS FILE", callback_data=f"delete+{msg.message_id}")
     ]]
 
     # sending message

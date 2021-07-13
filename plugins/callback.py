@@ -55,11 +55,11 @@ async def about_cb(c, m):
     bot = await c.get_me()
 
     # about text
-    about_text = f"""--**My Details:**--
+    about_text = f"""--**ABOUT:**--
 
- ʙᴏᴛ ɴᴀᴍᴇ: {bot.mention(style='md')}
- ᴍᴀɪɴᴛᴀɪɴᴇʀ: {owner.mention(style='md')}
- ᴄᴏɴᴛᴀᴄᴛ: [Night Core](https://t.me/pmplutoniumxbot?start)"""
+ 𝗕𝗢𝗧 𝗡𝗔𝗠𝗘: {bot.mention(style='md')}
+ 𝗠𝗔𝗜𝗡𝗧𝗔𝗜𝗡𝗘𝗥: {owner.mention(style='md')}
+ 𝗖𝗢𝗡𝗧𝗔𝗖𝗧: [Night Core](https://t.me/pmplutoniumxbot?start)"""
 
     # creating buttons
     buttons = [
