@@ -26,7 +26,7 @@ def get_readable_time(seconds: int) -> str:
     ping_time += ":".join(time_list)
     return ping_time
 
-@Bot.on_message(filters.private & filters.command("ping") & filters.user(BOT_OWNER) & filters.reply)
+@Client.on_message(filters.private & filters.command("ping") & filters.user(BOT_OWNER) & filters.reply)
 async def ping_bot(_, message):
     start_time = time.time()
     m = await message.reply_text("Pinging...")
