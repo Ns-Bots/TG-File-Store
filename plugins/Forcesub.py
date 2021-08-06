@@ -4,6 +4,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import UserNotParticipant
 from database.database import *
 from config import *
+from plugins.commands import decode
 
 @Client.on_message(filters.private & filters.incoming)
 async def forcesub(c, m):
@@ -17,8 +18,9 @@ async def forcesub(c, m):
         except UserNotParticipant:
             buttons = [[InlineKeyboardButton(text='Updates Channel 🔖', url=f"https://t.me/{UPDATE_CHANNEL}")]]
             if m.text:
-                if (len(m.text.split(' ')) > 1) & ('start' in m.text):
-                    chat_id, msg_id = m.text.split(' ')[1].split('_')
+                if (len(m.command) > 1) & ('start' in m.text):
+                    decoded_data = await decode(m.command[1])
+                    chat_id, msg_id = decoded_data.split('_')
                     buttons.append([InlineKeyboardButton('🔄 Refresh', callback_data=f'refresh+{chat_id}+{msg_id}')])
             await m.reply_text(
                 f"Hey {m.from_user.mention(style='md')} you need join My updates channel in order to use me 😉\n\n"
