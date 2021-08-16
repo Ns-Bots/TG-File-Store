@@ -88,7 +88,7 @@ async def storefile_channel(c, m):
     text += f"__💬 DC ID:__ {m.chat.dc_id}\n\n" if m.chat.dc_id else ""
     text += f"__👁 Members Count:__ {m.chat.members_count}\n\n" if m.chat.members_count else ""
 
-    # if databacase channel exist forwarding message to channel
+    # if database channel exist forwarding message to channel
     if DB_CHANNEL_ID:
         msg = await m.copy(int(DB_CHANNEL_ID))
         await msg.reply(text)
