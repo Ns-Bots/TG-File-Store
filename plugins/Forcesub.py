@@ -12,7 +12,7 @@ async def forcesub(c, m):
     if UPDATE_CHANNEL:
         try:
             user = await c.get_chat_member(UPDATE_CHANNEL, m.from_user.id)
-            if user.status == "kicked":
+            if user.status == "banned":
                await m.reply_text("**Hey you are banned 😜**", quote=True)
                return
         except UserNotParticipant:
@@ -42,7 +42,7 @@ async def refresh_cb(c, m):
     if UPDATE_CHANNEL:
         try:
             user = await c.get_chat_member(UPDATE_CHANNEL, m.from_user.id)
-            if user.status == "kicked":
+            if user.status == "banned":
                try:
                    await m.message.edit("**Hey you are banned 😜**")
                except:
