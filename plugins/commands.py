@@ -75,9 +75,14 @@ async def start(c, m, cb=False):
                 if msg.empty:
                     owner = await c.get_users(int(OWNER_ID))
                     return await m.reply_text(f"🥴 Sorry bro your file was deleted by file owner or bot owner\n\nFor more help contact my owner 👉 {owner.mention(style='md')}")
-
-                await msg.copy(m.from_user.id)
-                await asyncio.sleep(1)
+                try:
+                    await msg.copy(m.from_user.id, protect_content=PROTECT_CONTENT)
+                    await asyncio.sleep(1)
+                except FloodWait as e:
+                    await asyncio.sleep(e.x)
+                    await msg.copy(m.from_user.id, protect_content=PROTECT_CONTENT)
+                except:
+                    pass
             return
 
         chat_id, msg_id = m.command[1].split('_')
@@ -109,7 +114,7 @@ async def start(c, m, cb=False):
 
 
         await send_msg.delete()
-        await msg.copy(m.from_user.id, caption=caption)
+        await msg.copy(m.from_user.id, caption=caption, protect_content=PROTECT_CONTENT)
 
 
     else: # sending start message
